@@ -1,8 +1,8 @@
 """
-projekt_1.py: první projekt do Engeto Online Python Akademie
+main.py: první projekt do Engeto Online Python Akademie
 
 author: Michal Procházka
-email: Michael.p.@gmail.com
+email: Michael.p.@hotmail.cz
 """
 import hashlib
 import string
