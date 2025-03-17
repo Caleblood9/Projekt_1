@@ -80,10 +80,10 @@ if username in users and check_password(password, users[username]):
     print(f"The sum of all the numbers {summary}.")
     print("-" * 40)
 
-    print("\nLEN|  OCCURRENCES   |NR.")
+    print("\nLEN|  OCCURRENCES  |NR.")
     print("-" * 40)
     for i, count in enumerate(word_lens, 1):
-        print(f"{str(i).rjust(2)} | {'*' * count}".ljust(20) + f"| {count}")
+        print(f"{str(i).rjust(2)} | {'*' * count}".ljust(25) + f"| {count}")
 
 else:
     print("❌ Unregistered user, terminating the program.")
