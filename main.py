@@ -1,9 +1,3 @@
-"""
-main.py: první projekt do Engeto Online Python Akademie
-
-author: Michal Procházka
-email: Michael.p.@hotmail.cz
-"""
 import hashlib
 import string
 
@@ -56,56 +50,44 @@ if username in users and check_password(password, users[username]):
     print(f"✅ Welcome to the app, {username}.")
     print("We have 3 texts to be analyzed.")
     print("-" * 40)
-    
-    txtchoice = int(input("Enter a number btw. 1 and 3 to select: "))
-    
-    if 1 <= txtchoice <= 3:
-        text = TEXTS[txtchoice - 1]
-        
-        wcount = 0
-        title = 0
-        lower = 0
-        num = 0
-        sum = 0
-        words = text.split()
-        wlengths = [0] * 11
 
-        for word in words:
-            word = word.strip(string.punctuation)
-            wcount += 1
-            wlength = len(word)
-
-            if word.istitle():
-                title += 1
-            elif word.islower():
-                lower += 1
-            elif word.isdigit():
-                num += 1
-                sum += int(word)
-            
-            if 1 <= wlength <= 11:
-                wlengths[wlength - 1] += 1
-
-        print("-" * 40)
-        print(f"There are {wcount} words in the selected text.")
-        print(f"There are {title} titlecase words.")
-        print(f"There are {lower} lowercase words.")
-        print(f"There are {num} numeric strings.")
-        print(f"The sum of all the numbers {sum}.")
-        print("-" * 40)
-
-        print("\nLEN|  OCCURENCES  |NR.")
-        
-        print("-" * 40)
-        for i in range(11):
-            if wlengths[i] > 0:
-                print(f"{i+1}| {'*' * wlengths[i]} {wlengths[i]}")
-                
-    else:
+    try:
+        txtchoice = int(input("Enter a number btw. 1 and 3 to select: "))
+        if txtchoice not in range(1, 4):
+            raise ValueError
+    except ValueError:
         print("Wrong choice")
+        exit(1)
+
+    text = TEXTS[txtchoice - 1]
+    words = text.split()
+
+    word_count = len(words)
+    word_title = sum(1 for word in words if word.istitle())
+    word_lower = sum(1 for word in words if word.islower())
+    word_num = sum(1 for word in words if word.isdigit())
+    summary = sum(int(word) for word in words if word.isdigit())
+
+    word_lens = []
+    for word in words:
+        word = word.strip(string.punctuation)
+        w_len = len(word)
+        while len(word_lens) < w_len:
+            word_lens.append(0)
+        word_lens[w_len - 1] += 1
+
+    print("-" * 40)
+    print(f"There are {word_count} words in the selected text.")
+    print(f"There are {word_title} titlecase words.")
+    print(f"There are {word_lower} lowercase words.")
+    print(f"There are {word_num} numeric strings.")
+    print(f"The sum of all the numbers {summary}.")
+    print("-" * 40)
+
+    print("\nLEN|  OCCURRENCES   |NR.")
+    print("-" * 40)
+    for i, count in enumerate(word_lens, 1):
+        print(f"{str(i).rjust(2)} | {'*' * count}".ljust(20) + f"| {count}")
+
 else:
-    print("❌ unregistered user, terminating the program.")
-    exit()
-
-
-
+    print("❌ Unregistered user, terminating the program.")
