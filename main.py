@@ -60,7 +60,7 @@ if username in users and check_password(password, users[username]):
         exit(1)
 
     text = TEXTS[txtchoice - 1]
-    words = text.split()
+    words = [word.strip(string.punctuation) for word in text.split()]
 
     word_count = len(words)
     word_title = sum(1 for word in words if word.istitle())
@@ -68,13 +68,9 @@ if username in users and check_password(password, users[username]):
     word_num = sum(1 for word in words if word.isdigit())
     summary = sum(int(word) for word in words if word.isdigit())
 
-    word_lens = []
+    word_lens = [0] * (max(len(word) for word in words) + 1)
     for word in words:
-        word = word.strip(string.punctuation)
-        w_len = len(word)
-        while len(word_lens) < w_len:
-            word_lens.append(0)
-        word_lens[w_len - 1] += 1
+        word_lens[len(word)] += 1
 
     print("-" * 40)
     print(f"There are {word_count} words in the selected text.")
