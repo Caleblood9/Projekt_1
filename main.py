@@ -57,20 +57,35 @@ if username in users and check_password(password, users[username]):
             raise ValueError
     except ValueError:
         print("Wrong choice")
-        exit(1)
+        exit()
 
     text = TEXTS[txtchoice - 1]
     words = [word.strip(string.punctuation) for word in text.split()]
 
-    word_count = len(words)
-    word_title = sum(1 for word in words if word.istitle())
-    word_lower = sum(1 for word in words if word.islower())
-    word_num = sum(1 for word in words if word.isdigit())
-    summary = sum(int(word) for word in words if word.isdigit())
+    word_count = 0
+    word_title = 0
+    word_lower = 0
+    word_num = 0
+    summary = 0
+    word_lens = [0]
 
-    word_lens = [0] * (max(len(word) for word in words) + 1)
     for word in words:
-        word_lens[len(word)] += 1
+        word = word.strip(string.punctuation)
+        word_count += 1
+                
+        word_len = len(word)
+        if word.istitle():
+            word_title += 1
+        elif word.islower():
+            word_lower += 1
+        elif word.isdigit():
+            word_num += 1
+            summary += int(word)
+
+        while len(word_lens) < word_len:
+            word_lens.append(0)
+
+        word_lens[word_len - 1] += 1        
 
     print("-" * 40)
     print(f"There are {word_count} words in the selected text.")
